@@ -4,9 +4,7 @@ import random
 Crea un tablero del juego Memorice
 
 """
-def Board() :
-    cards = int(input("Ingrese el número de cartas a jugar :\n"))
-
+def Board(cards) :
     #Se crea un tablero vacío. Por temas de orden cada fila va a tener un máximo arbitrario de 6 cartas
     width  = 6  
 
@@ -52,9 +50,22 @@ def printb(board) :
         print("|")
     print("--" * width + "-")
 
-board = Board()
-printb(board)
+board = Board(10)
 
-    
+def Memorice():
+    print("¡Bienvenido a Memorice!\n")
+    juego =1 # int(input("Ingresa 1 en la terminal para jugar!!. Si deseas dalir, ingresa 0"))
+    while juego == 1 :
+        print("""***INSTRUCCIONES***\nEn este juego habrán una cierta cantidad de pares de cartas iguales, pero estas estarán
+desordenadas y ocultas en el tablero.\nDos jugadores se turnarán para tratar de encontrar los pares de cartas iguales,
+eligiendo 2 cartas en cada turno. Si las cartas elegidas son iguales, el jugador que las
+eligió sumará un punto y repetirá su turno. Si no, es turno del otro\nEl jugador que encuentre más de la mitad de las parejas
+es el ganador\n ¡¡¡Buena suerte!!!""")
+        cards = int(input("Ingrese el número de cartas a jugar :\n"))
+        board = Boards(cards)
+
+
+         
+print(Memorice())
 
 
