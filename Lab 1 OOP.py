@@ -33,7 +33,6 @@ def Boards(cards) :
         board.append(row)
     return board
 
-
 """
 Imprime las condiciones del tablero actual 
 """
@@ -61,16 +60,16 @@ def printb(board, found) :
         print("|")
     print("-" * width * 9 + "-")
 
-def Memorice(board) :
+#Determina las coordenadas de una jugada cualquiera
+def Coordinates(board) :
     found = [] # Es el nombre que le di a lista de cartas seleccionadas
     val = 0 #validity of coordinates
     while val == 0 :
         coor1 = input("Ingresa las coordenadas de la primera carta (i,j) :\n")
         coor1_x , coor1_y = coor1[1], coor1[-2]
-
         #Sólo por las dudas, voy a validar que las coordenadas estén bien (la ayudante nos dijo que era siempre
-        # recomendable). Perdón por la línea gigante:( Pero son muchas condiciones que hay que comprobar...
-        if (0 <= (int(coor1_x) and int(coor1_y))) and int(coor1_x) < len(board) and int(coor1_y) < 6 and (coor1[1].isnumeric() and coor1[-2].isnumeric()) == True :
+        # recomendable hacerlo). Perdón por la línea gigante:( pero son muchas condiciones que hay que comprobar...
+        if (0 <= (int(coor1_x) and int(coor1_y))) and int(coor1_x) < len(board) and int(coor1_y) < 6 and ((coor1[1].isnumeric() and coor1[-2].isnumeric()) == True) and (board[int(coor1_x)][int(coor1_y)]) != "":
             c_1  = int(coor1_x), int(coor1_y)
             found.append(c_1)
             printb(board, found)
@@ -81,10 +80,9 @@ def Memorice(board) :
     while val == 0 :
         coor2 = input("Ingresa las coordenadas de la segunda carta (i,j) :\n")
         coor2_x , coor2_y = coor2[1], coor2[-2]
-
         #Perdón... denuevo  :(
-        if (0 <= (int(coor2_x) and int(coor2_y))) and int(coor2_x) < len(board) and int(coor2_y) < 6 and (coor2[1].isnumeric() and coor2[-2].isnumeric()) == True :
-            c_2 = int(coor2_x), int(coor2_y) and (board)
+        if (0 <= (int(coor2_x) and int(coor2_y))) and int(coor2_x) < len(board) and int(coor2_y) < 6 and ((coor2[1].isnumeric() and coor2[-2].isnumeric()) == True) and (board[int(coor2_x)][int(coor2_y)]) != "" :
+            c_2 = int(coor2_x), int(coor2_y) 
             found.append(c_2)
             printb(board, found)
             sleep(1)
@@ -117,61 +115,68 @@ seleccionó sumará un punto y repetirá su turno. Si no, es turno del otro\nEl 
     turn = 0
     found  = 0
     f = []
-    
-    while (turn/2) == int(turn/2) :
-        print(found, cards)
-        #Antes del turno revisaré si el juego se ha acabado     
-        print("Turno del jugador 1")
-        printb(board, f)
+    while True :
+        while (turn/2) == int(turn/2) :
+            #Antes del turno revisaré si el juego se ha acabado     
+            print("\n\n\nTurno del jugador 1")
+            printb(board, f)
 
-        c_1, c_2 = Memorice(board)
-        if board[c_1[0]][c_1[1]] == board[c_2[0]][c_2[1]] :
-            board[c_1[0]][c_1[1]] = ""
-            board[c_2[0]][c_2[1]] = ""
-            found +=1
-            p_1 += 1
-            if p_1 == 1 :
-                print("El jugador 1 tiene %d punto"%p_1)
+            c_1, c_2 = Coordinates(board)
+            if (c_1 != c_2) and board[c_1[0]][c_1[1]] == board[c_2[0]][c_2[1]] :
+                board[c_1[0]][c_1[1]] = ""
+                board[c_2[0]][c_2[1]] = ""
+                found +=1
+
+                p_1 += 1
+                if p_1 == 1 :
+                    print("El jugador 1 tiene %d punto"%p_1)
+                else :
+                    print("El jugador 1 tiene %d puntos"%p_1)
+
+                if found == cards :
+                    if p_1 == p_2 :
+                        return print("Ha habido un empate")
+                    elif p_1 > int(cards/2) :
+                        return print("El ganador es el jugador 1 con %d puntos"%p_1)
+                    elif p_2 > int(cards/2) :
+                        return print("El ganador es el jugador 2 con %d puntos"%p_2)
+
+                turn += 2
+
             else :
-                print("El jugador 1 tiene %d puntos"%p_1)
-            if found == cards :
-                if p_1 == p_2 :
-                    return print("Ha habido un empate")
-                elif p_1 > int(cards/2) :
-                    return print("El ganador es el jugador 1 con %d puntos"%p_1)
-                elif p_2 > int(cards/2) :
-                    return print("El ganador es el jugador 2 con %d puntos"%p_2)
-            turn += 2
-        else :
-            board[c_1[0]][c_1[1]] = int(board[c_1[0]][c_1[1]])
-            board[c_2[0]][c_2[1]] = int(board[c_2[0]][c_2[1]])
-            turn += 1
+                board[c_1[0]][c_1[1]] = int(board[c_1[0]][c_1[1]])
+                board[c_2[0]][c_2[1]] = int(board[c_2[0]][c_2[1]])
+                turn += 1
 
-    while (turn/2) != int(turn/2) :
-        if found == cards :
-            if p_1 > int(cards/2) :
-                return print("El ganador es el jugador 1 con %d puntos"%p_1)
-            elif p_2 > int(cards/2) :
-                return print("El ganador es el jugador 2 con %d puntos"%p_2)
+        while (turn/2) != int(turn/2) :
 
-        print("Es turno del jugador 2")
-        printb(board,f)
-        c_1, c_2 = Memorice(board)
-        print(c_1,c_2)
-        if board[c_1[0]][c_1[1]] == board[c_2[0]][c_2[1]] :
-            board[c_1[0]][c_1[1]] = ""
-            board[c_2[0]][c_2[1]] = ""
-            found +=1
-            p_2 += 1
-            if p_2 == 1 :
-                print("El jugador 2 tiene %d punto"%p_2)
+            print("\n\n\nEs turno del jugador 2")
+            printb(board,f)
+
+            c_1, c_2 = Coordinates(board)
+            
+            if (c_1 != c_2) and board[c_1[0]][c_1[1]] == board[c_2[0]][c_2[1]] :
+                board[c_1[0]][c_1[1]] = ""
+                board[c_2[0]][c_2[1]] = ""
+                found +=1
+
+                p_2 += 1
+                if p_2 == 1 :
+                    print("El jugador 2 tiene %d punto"%p_2)
+                else :
+                    print("El jugador 2 tiene %d puntos"%p_2)
+
+                if found == cards :
+                    if p_1 == p_2 :
+                        return print("Ha habido un empate")
+                    elif p_1 > int(cards/2) :
+                        return print("El ganador es el jugador 1 con %d puntos"%p_1)
+                    elif p_2 > int(cards/2) :
+                        return print("El ganador es el jugador 2 con %d puntos"%p_2)
+
+                turn += 2
             else :
-                print("El jugador 2 tiene %d puntos"%p_2)
-            turn += 2
-        else :
-            board[c_1[0]][c_1[1]] = int(board[c_1[0]][c_1[1]])
-            board[c_2[0]][c_2[1]] = int(board[c_2[0]][c_2[1]])
-            turn += 1
-            print(turn)
-
+                board[c_1[0]][c_1[1]] = int(board[c_1[0]][c_1[1]])
+                board[c_2[0]][c_2[1]] = int(board[c_2[0]][c_2[1]])
+                turn += 1
 (Interfaz())
