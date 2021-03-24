@@ -1,8 +1,8 @@
 import random
 from time import sleep
+
 """
 Crea un tablero del juego Memorice
-
 """
 def Boards(cards) :
     #Se crea un tablero vacío. Por temas de orden cada fila va a tener un máximo arbitrario de 6 cartas
@@ -66,7 +66,14 @@ def Coordinates(board) :
     val = 0 #validity of coordinates
     while val == 0 :
         coor1 = input("Ingresa las coordenadas de la primera carta (i,j) :\n")
-        coor1_x , coor1_y = coor1[1], coor1[-2]
+
+        #Esta condición la puse porque na sabía como iba a ser el input exacto con el que se corregía :(
+        if coor1[-1] == ")" and coor1[0] == "(" :
+            coor1_x , coor1_y = coor1[1], coor1[-2]
+        else :
+            coor1= "("+coor1[0]+","+""+coor1[-1]+")"
+            coor1_x , coor1_y = coor1[1], coor1[-2] 
+
         #Sólo por las dudas, voy a validar que las coordenadas estén bien (la ayudante nos dijo que era siempre
         # recomendable hacerlo). Perdón por la línea gigante:( pero son muchas condiciones que hay que comprobar...
         if (0 <= (int(coor1_x) and int(coor1_y))) and int(coor1_x) < len(board) and int(coor1_y) < 6 and ((coor1[1].isnumeric() and coor1[-2].isnumeric()) == True) and (board[int(coor1_x)][int(coor1_y)]) != "":
@@ -79,7 +86,12 @@ def Coordinates(board) :
     val = 0
     while val == 0 :
         coor2 = input("Ingresa las coordenadas de la segunda carta (i,j) :\n")
-        coor2_x , coor2_y = coor2[1], coor2[-2]
+
+        if coor2[-1] == ")" and coor2[0] == "(" :
+            coor2_x , coor2_y = coor2[1], coor2[-2]
+        else :
+            coor2= "("+coor2[0]+","+""+coor2[-1]+")"
+            coor2_x , coor2_y = coor2[1], coor2[-2]
         #Perdón... denuevo  :(
         if (0 <= (int(coor2_x) and int(coor2_y))) and int(coor2_x) < len(board) and int(coor2_y) < 6 and ((coor2[1].isnumeric() and coor2[-2].isnumeric()) == True) and (board[int(coor2_x)][int(coor2_y)]) != "" :
             c_2 = int(coor2_x), int(coor2_y) 
