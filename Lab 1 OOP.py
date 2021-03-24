@@ -187,6 +187,7 @@ seleccionó sumará un punto y repetirá su turno. Si no, es turno del otro\nEl 
                         return print("El ganador es el jugador 2 con %d puntos"%p_2)
 
                 turn += 2
+                
             else :
                 board[c_1[0]][c_1[1]] = int(board[c_1[0]][c_1[1]])
                 board[c_2[0]][c_2[1]] = int(board[c_2[0]][c_2[1]])
